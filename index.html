@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Web page not available</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --ink:#0B1220;
+    --sub:#5B6B84;
+    --blue:#2563EB;
+    --blue-deep:#1E3A8A;
+    --blue-soft:#EAF1FF;
+    --blue-card:#F5F8FF;
+    --white:#FFFFFF;
+    --ring:#D7E4FF;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  html,body{
+    height:100%;
+    width:100%;
+  }
+
+  body{
+    font-family:'Space Grotesk', sans-serif;
+    background:var(--white);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow-x:hidden;
+    position:relative;
+    padding:24px;
+  }
+
+  /* ---------- Animated background mesh ---------- */
+  .bg-mesh{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    background:var(--white);
+  }
+
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:.55;
+    will-change:transform;
+  }
+
+  .blob.b1{
+    width:46vw;height:46vw;
+    max-width:620px;max-height:620px;
+    top:-14%;left:-12%;
+    background:radial-gradient(circle at 30% 30%, #BFD6FF, transparent 70%);
+    animation:float1 16s ease-in-out infinite;
+  }
+
+  .blob.b2{
+    width:38vw;height:38vw;
+    max-width:520px;max-height:520px;
+    bottom:-16%;right:-10%;
+    background:radial-gradient(circle at 60% 60%, #DCE8FF, transparent 70%);
+    animation:float2 20s ease-in-out infinite;
+  }
+
+  .blob.b3{
+    width:28vw;height:28vw;
+    max-width:380px;max-height:380px;
+    top:35%;right:8%;
+    background:radial-gradient(circle at 50% 50%, #CFE0FF, transparent 70%);
+    animation:float3 14s ease-in-out infinite;
+  }
+
+  .grid-overlay{
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(var(--ring) 1px, transparent 1px),
+      linear-gradient(90deg, var(--ring) 1px, transparent 1px);
+    background-size:56px 56px;
+    opacity:.35;
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 40%, black 10%, transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%, black 10%, transparent 75%);
+  }
+
+  @keyframes float1{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(4%,6%) scale(1.08);}
+  }
+  @keyframes float2{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(-5%,-4%) scale(1.1);}
+  }
+  @keyframes float3{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(-6%,5%) scale(0.92);}
+  }
+
+  /* ---------- Card ---------- */
+  .wrap{
+    position:relative;
+    z-index:2;
+    width:100%;
+    display:flex;
+    justify-content:center;
+  }
+
+  .card{
+    position:relative;
+    width:100%;
+    max-width:560px;
+    background:var(--blue-card);
+    border:1px solid var(--ring);
+    border-radius:28px;
+    padding:52px 44px 44px;
+    text-align:center;
+    box-shadow:
+      0 1px 2px rgba(30,58,138,.04),
+      0 24px 60px -20px rgba(37,99,235,.22),
+      0 8px 24px -12px rgba(37,99,235,.14);
+    opacity:0;
+    transform:translateY(18px) scale(.98);
+    animation:cardIn .8s cubic-bezier(.19,1,.22,1) .15s forwards;
+  }
+
+  @keyframes cardIn{
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
+
+  /* signature: broken-connector icon */
+  .icon-stage{
+    width:104px;
+    height:104px;
+    margin:0 auto 28px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .icon-ring{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:var(--blue-soft);
+    animation:pulseRing 2.6s ease-in-out infinite;
+  }
+
+  @keyframes pulseRing{
+    0%,100%{transform:scale(.9);opacity:.7;}
+    50%{transform:scale(1.06);opacity:1;}
+  }
+
+  .plug-svg{
+    position:relative;
+    z-index:1;
+    width:56px;
+    height:56px;
+  }
+
+  .plug-left{
+    transform-origin:center;
+    animation:jitterLeft 3.2s ease-in-out infinite;
+  }
+  .plug-right{
+    transform-origin:center;
+    animation:jitterRight 3.2s ease-in-out infinite;
+  }
+
+  @keyframes jitterLeft{
+    0%,100%{transform:translateX(0);}
+    45%{transform:translateX(-3.5px);}
+    55%{transform:translateX(-3.5px);}
+  }
+  @keyframes jitterRight{
+    0%,100%{transform:translateX(0);}
+    45%{transform:translateX(3.5px);}
+    55%{transform:translateX(3.5px);}
+  }
+
+  .spark{
+    animation:sparkPulse 3.2s ease-in-out infinite;
+    transform-origin:center;
+  }
+
+  @keyframes sparkPulse{
+    0%,38%,62%,100%{opacity:0;transform:scale(.6);}
+    50%{opacity:1;transform:scale(1.15);}
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--blue-deep);
+    background:var(--blue-soft);
+    border:1px solid var(--ring);
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:22px;
+    opacity:0;
+    animation:fadeUp .6s ease .5s forwards;
+  }
+
+  .eyebrow-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--blue);
+    animation:blinkDot 1.6s ease-in-out infinite;
+  }
+
+  @keyframes blinkDot{
+    0%,100%{opacity:1;}
+    50%{opacity:.25;}
+  }
+
+  h1{
+    font-size:clamp(28px, 5.4vw, 40px);
+    font-weight:700;
+    letter-spacing:-.02em;
+    line-height:1.15;
+    color:var(--ink);
+    opacity:0;
+    animation:fadeUp .7s ease .62s forwards;
+  }
+
+  .headline-shimmer{
+    background:linear-gradient(100deg, var(--ink) 40%, var(--blue) 50%, var(--ink) 60%);
+    background-size:220% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:fadeUp .7s ease .62s forwards, shimmer 4.5s linear 1.4s infinite;
+  }
+
+  @keyframes shimmer{
+    to{background-position:-220% center;}
+  }
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  .desc{
+    margin-top:18px;
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--sub);
+    max-width:440px;
+    margin-left:auto;
+    margin-right:auto;
+    opacity:0;
+    animation:fadeUp .7s ease .78s forwards;
+    word-break:break-word;
+  }
+
+  .desc .url{
+    color:var(--blue-deep);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13.5px;
+  }
+
+  .code-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:22px;
+    padding:10px 16px;
+    background:var(--white);
+    border:1px solid var(--ring);
+    border-radius:12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--blue-deep);
+    letter-spacing:.01em;
+    opacity:0;
+    animation:fadeUp .7s ease .92s forwards;
+  }
+
+  .code-pill svg{
+    width:14px;height:14px;
+    flex-shrink:0;
+    animation:spin 2.4s linear infinite;
+  }
+
+  @keyframes spin{
+    to{transform:rotate(360deg);}
+  }
+
+  .bars{
+    display:flex;
+    align-items:flex-end;
+    gap:4px;
+    height:20px;
+    margin:26px auto 0;
+    justify-content:center;
+    opacity:0;
+    animation:fadeUp .7s ease 1.05s forwards;
+  }
+
+  .bars span{
+    width:5px;
+    border-radius:3px;
+    background:var(--blue);
+    opacity:.35;
+    animation:barPulse 1.8s ease-in-out infinite;
+  }
+  .bars span:nth-child(1){height:8px;animation-delay:0s;}
+  .bars span:nth-child(2){height:16px;animation-delay:.15s;}
+  .bars span:nth-child(3){height:20px;animation-delay:.3s;background:#94A9C9;opacity:.25;}
+  .bars span:nth-child(4){height:12px;animation-delay:.45s;}
+  .bars span:nth-child(5){height:6px;animation-delay:.6s;}
+
+  @keyframes barPulse{
+    0%,100%{opacity:.25;transform:scaleY(.7);}
+    50%{opacity:.7;transform:scaleY(1);}
+  }
+
+  .footnote{
+    margin-top:24px;
+    font-size:12px;
+    color:#94A3B8;
+    opacity:0;
+    animation:fadeUp .7s ease 1.15s forwards;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:480px){
+    .card{
+      padding:40px 26px 32px;
+      border-radius:22px;
+    }
+    .icon-stage{width:88px;height:88px;margin-bottom:22px;}
+    .plug-svg{width:46px;height:46px;}
+    .desc{font-size:13.5px;}
+    .code-pill{font-size:11.5px;padding:9px 13px;}
+  }
+
+  @media (min-width:1200px){
+    .card{max-width:600px;padding:60px 52px 50px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+    }
+    .card, h1, .desc, .eyebrow, .code-pill, .bars, .footnote{opacity:1 !important;transform:none !important;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="bg-mesh" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+
+      <div class="icon-stage">
+        <div class="icon-ring"></div>
+        <svg class="plug-svg" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g class="plug-left">
+            <rect x="6" y="22" width="16" height="12" rx="4" fill="#2563EB"/>
+            <rect x="10" y="16" width="3" height="8" rx="1.5" fill="#1E3A8A"/>
+            <rect x="16" y="16" width="3" height="8" rx="1.5" fill="#1E3A8A"/>
+          </g>
+          <g class="plug-right">
+            <rect x="34" y="22" width="16" height="12" rx="4" fill="#93B4FF"/>
+            <rect x="43" y="16" width="3" height="8" rx="1.5" fill="#5B8AFB"/>
+            <rect x="37" y="16" width="3" height="8" rx="1.5" fill="#5B8AFB"/>
+          </g>
+          <g class="spark">
+            <circle cx="28" cy="28" r="2.4" fill="#2563EB"/>
+            <circle cx="28" cy="28" r="5.5" stroke="#2563EB" stroke-width="1.4" opacity=".5"/>
+          </g>
+        </svg>
+      </div>
+
+      <span class="eyebrow"><span class="eyebrow-dot"></span>Connection lost</span>
+
+      <h1><span class="headline-shimmer">Web page not available</span></h1>
+
+      <p class="desc">The web page at <span class="url">https://ncppoint.com</span> could not be loaded because:<br>Renew::ERR_HOSTING_DISCONNECTED</p>
+
+      <div class="bars">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <span class="code-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.4" stroke-linecap="round">
+          <circle cx="12" cy="12" r="9" stroke-dasharray="42" stroke-dashoffset="12"/>
+        </svg>
+        Renew::ERR_HOSTING_DISCONNECTED
+      </span>
+
+      <p class="footnote">Renew Pay now and reloading, or check back once the connection is restored.</p>
+
+    </div>
+  </div>
+
+</body>
+</html>
